@@ -12,26 +12,74 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
+            gap: 32px;
         }
 
         .ball {
             width: 360px;
             cursor: pointer;
             transform-origin: bottom center;
+            display: none;
         }
 
         .ball img {
             width: 100%;
             display: block;
-        }       
+        }
+
+        .setup {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            color: white;
+            font-size: 18px;
+        }
     </style>
 </head>
 
 <body>
-    <div class="ball">
+    <div class="setup" id="setup">
+        <label>
+            포켓몬 이미지 폴더 선택
+            <input type="file" id="folderInput" webkitdirectory>
+        </label>
+        <p>불러온 이미지: <span id="imageCount">0</span>장</p>
+    </div>
+    <div class="ball" id="ball">
         <img src="assets/ball.png" alt="볼">
     </div>
     <script>
+        const folderInput = document.getElementById('folderInput');
+        const imageCount = document.getElementById('imageCount');
+        const setup = document.getElementById('setup');
+        const ball = document.getElementById('ball');
+
+        const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+        let pokemons = [];
+
+        folderInput.addEventListener('change', () => {
+            const files = Array.from(folderInput.files);
+
+            const imageFiles = files.filter(file => IMAGE_TYPES.includes(file.type));
+
+            pokemons = imageFiles.map(file => {
+                return {
+                    name: file.name.slice(0, file.name.lastIndexOf('.')),
+                    file: file
+                };
+            });
+
+            imageCount.textContent = pokemons.length;
+            console.log(pokemons);
+            if (pokemons.length === 0) {
+                alert('이미지 파일이 없는 폴더예요. 다시 선택해주세요.');
+                return;
+            }
+
+            setup.style.display = 'none';
+            ball.style.display = 'block';
+        });
     </script>
 </body>
 
