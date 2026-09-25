@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <title>공대인의 밤 추첨</title>
     <style>
+        @font-face {
+            font-family: 'Galmuri11';
+            src: url('fonts/Galmuri11.woff2') format('woff2');
+            font-weight: normal;
+        }
+
+        @font-face {
+            font-family: 'Galmuri11';
+            src: url('fonts/Galmuri11-Bold.woff2') format('woff2');
+            font-weight: bold;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
@@ -14,6 +26,7 @@
             align-items: center;
             flex-direction: column;
             gap: 4vmin;
+            font-family: 'Galmuri11', sans-serif;
         }
 
         .ball {
@@ -31,9 +44,51 @@
         .setup {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            align-items: center;
+            gap: 16px;
             color: white;
+            text-align: center;
+        }
+
+        .setup-title {
+            margin: 0;
+            font-size: 56px;
+            color: #f2c14e;
+            text-shadow: 0 0 20px rgba(242, 193, 78, 0.5);
+        }
+
+        .setup-sub {
+            margin: 0;
+            font-size: 22px;
+            opacity: 0.8;
+        }
+
+        .folder-btn {
+            margin-top: 24px;
+            padding: 16px 32px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #0b1026;
+            background: #f2c14e;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .folder-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(242, 193, 78, 0.4);
+        }
+
+        .setup-count {
+            margin: 0;
             font-size: 18px;
+        }
+
+        .setup-hint {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.6;
         }
 
         .ball.shaking {
@@ -177,11 +232,14 @@
 
 <body>
     <div class="setup" id="setup">
-        <label>
-            포켓몬 이미지 폴더 선택
-            <input type="file" id="folderInput" webkitdirectory>
-        </label>
-        <p>불러온 이미지: <span id="imageCount">0</span>장</p>
+        <h1 class="setup-title">공대인의 밤</h1>
+        <p class="setup-sub">포켓몬 추첨</p>
+
+        <label class="folder-btn" for="folderInput">포켓몬 이미지 폴더 선택</label>
+        <input type="file" id="folderInput" webkitdirectory hidden>
+
+        <p class="setup-count">불러온 이미지: <span id="imageCount">0</span>장</p>
+        <p class="setup-hint">폴더를 고르면 추첨 화면으로 전환됩니다 · 스페이스바 / → / 클릭으로 진행</p>
     </div>
     <div class="ball" id="ball">
         <img src="assets/ball.png" alt="볼">
