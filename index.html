@@ -229,7 +229,7 @@
             setup.style.display = 'none';
             ball.style.display = 'block';
         });
-        ball.addEventListener('click', () => {
+        function startDraw() {
             if (pokemons.length === 0) {
                 alert('모든 포켓몬이 뽑혔어요!');
                 return;
@@ -246,7 +246,8 @@
             pokemonName.textContent = picked.name;
             console.log('당첨:', picked.name);
             ball.classList.add('shaking');
-        });
+        }
+        ball.addEventListener('click', startDraw);
         ball.addEventListener('animationend', () => {
             ball.classList.remove('shaking');
             flash.classList.add('active');
@@ -261,10 +262,10 @@
             flash.classList.remove('active');
             isDrawing = false;
         });
-        const RESET_KEYS = [' ', 'Enter', 'ArrowRight', 'PageDown'];
+        const ACTION_KEYS = [' ', 'Enter', 'ArrowRight', 'PageDown'];
 
         document.addEventListener('keydown', (e) => {
-            if (!RESET_KEYS.includes(e.key)) {
+            if (!ACTION_KEYS.includes(e.key)) {
                 return;
             }
             e.preventDefault();
@@ -272,12 +273,13 @@
             if (isDrawing) {
                 return;
             }
-            if (!reveal.classList.contains('show')) {
-                return;
-            }
 
-            reveal.classList.remove('show');
-            ball.style.display = 'block';
+            if (reveal.classList.contains('show')) {
+                reveal.classList.remove('show');
+                ball.style.display = 'block';
+            } else if (ball.style.display === 'block') {
+                startDraw();
+            }
         });
     </script>
 </body>
