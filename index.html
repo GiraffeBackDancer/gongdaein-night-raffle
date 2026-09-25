@@ -101,6 +101,66 @@
                 transform: rotate(0deg);
             }
         }
+
+        .reveal {
+            display: none;
+        }
+
+        .reveal img {
+            width: 420px;
+            display: block;
+        }
+
+        .reveal.show {
+            display: block;
+            animation: pop-in 1.2s ease-out;
+        }
+
+        @keyframes pop-in {
+            0% {
+                transform: scale(0.2);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .flash {
+            position: fixed;
+            inset: 0;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .flash.active {
+            animation: flash 1.5s ease-out;
+        }
+
+        @keyframes flash {
+            0% {
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            35% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
@@ -115,15 +175,23 @@
     <div class="ball" id="ball">
         <img src="assets/ball.png" alt="볼">
     </div>
+    <div class="reveal" id="reveal">
+        <img id="pokemonImg" alt="">
+    </div>
+    <div class="flash" id="flash"></div>
     <script>
         const folderInput = document.getElementById('folderInput');
         const imageCount = document.getElementById('imageCount');
         const setup = document.getElementById('setup');
         const ball = document.getElementById('ball');
+        const flash = document.getElementById('flash');
+        const reveal = document.getElementById('reveal');
+        const pokemonImg = document.getElementById('pokemonImg');
 
         const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
         let pokemons = [];
         let isDrawing = false;
+        let picked = null;
 
         folderInput.addEventListener('change', () => {
             const files = Array.from(folderInput.files);
@@ -133,7 +201,8 @@
             pokemons = imageFiles.map(file => {
                 return {
                     name: file.name.slice(0, file.name.lastIndexOf('.')),
-                    file: file
+                    file: file,
+                    url: URL.createObjectURL(file)
                 };
             });
 
@@ -153,13 +222,23 @@
             }
             isDrawing = true;
             const index = Math.floor(Math.random() * pokemons.length);
-            const picked = pokemons[index];
-
+            picked = pokemons[index];
+            pokemonImg.src = picked.url;
             console.log('당첨:', picked.name);
             ball.classList.add('shaking');
         });
         ball.addEventListener('animationend', () => {
             ball.classList.remove('shaking');
+            flash.classList.add('active');
+
+            setTimeout(() => {
+                ball.style.display = 'none';
+                reveal.classList.add('show');
+            }, 300);
+        });
+
+        flash.addEventListener('animationend', () => {
+            flash.classList.remove('active');
             isDrawing = false;
         });
     </script>
