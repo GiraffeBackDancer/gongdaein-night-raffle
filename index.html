@@ -35,6 +35,72 @@
             color: white;
             font-size: 18px;
         }
+
+        .ball.shaking {
+            animation: shake 2s ease-in-out;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            8% {
+                transform: rotate(-6deg);
+            }
+
+            16% {
+                transform: rotate(5deg);
+            }
+
+            24% {
+                transform: rotate(-4deg);
+            }
+
+            32% {
+                transform: rotate(0deg);
+            }
+
+            45% {
+                transform: rotate(0deg);
+            }
+
+            52% {
+                transform: rotate(-10deg);
+            }
+
+            58% {
+                transform: rotate(10deg);
+            }
+
+            64% {
+                transform: rotate(-13deg);
+            }
+
+            70% {
+                transform: rotate(13deg);
+            }
+
+            76% {
+                transform: rotate(-16deg);
+            }
+
+            82% {
+                transform: rotate(16deg);
+            }
+
+            88% {
+                transform: rotate(-12deg);
+            }
+
+            94% {
+                transform: rotate(6deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
     </style>
 </head>
 
@@ -57,6 +123,7 @@
 
         const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
         let pokemons = [];
+        let isDrawing = false;
 
         folderInput.addEventListener('change', () => {
             const files = Array.from(folderInput.files);
@@ -79,6 +146,21 @@
 
             setup.style.display = 'none';
             ball.style.display = 'block';
+        });
+        ball.addEventListener('click', () => {
+            if (isDrawing) {
+                return;
+            }
+            isDrawing = true;
+            const index = Math.floor(Math.random() * pokemons.length);
+            const picked = pokemons[index];
+
+            console.log('당첨:', picked.name);
+            ball.classList.add('shaking');
+        });
+        ball.addEventListener('animationend', () => {
+            ball.classList.remove('shaking');
+            isDrawing = false;
         });
     </script>
 </body>
