@@ -111,6 +111,15 @@
             display: block;
         }
 
+        .pokemon-name {
+            margin: 24px 0 0;
+            color: white;
+            font-size: 72px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 0 20px #f2c14e;
+        }
+
         .reveal.show {
             display: block;
             animation: pop-in 1.2s ease-out;
@@ -177,6 +186,7 @@
     </div>
     <div class="reveal" id="reveal">
         <img id="pokemonImg" alt="">
+        <p class="pokemon-name" id="pokemonName"></p>
     </div>
     <div class="flash" id="flash"></div>
     <script>
@@ -187,6 +197,7 @@
         const flash = document.getElementById('flash');
         const reveal = document.getElementById('reveal');
         const pokemonImg = document.getElementById('pokemonImg');
+        const pokemonName = document.getElementById('pokemonName');
 
         const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
         let pokemons = [];
@@ -224,6 +235,7 @@
             const index = Math.floor(Math.random() * pokemons.length);
             picked = pokemons[index];
             pokemonImg.src = picked.url;
+            pokemonName.textContent = picked.name;
             console.log('당첨:', picked.name);
             ball.classList.add('shaking');
         });
